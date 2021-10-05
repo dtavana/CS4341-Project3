@@ -89,4 +89,3 @@ for i in range(len(transformedTestLabels)):
         # True Data and Prediction Data do not align
         matrixToImage(x_test[i], count)
         count += 1
-
