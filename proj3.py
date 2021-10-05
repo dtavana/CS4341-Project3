@@ -8,15 +8,17 @@ import numpy as np
 from matplotlib import pyplot as plt
 from utils import setToLabelIndexes, dumpNumpyArrToFile, matrixToImage, OUT_DIR
 
-TRAIN_SET_SIZE = 0.6
-VALIDATION_SET_SIZE = 0.15
-TEST_SET_SIZE = 1 - (TRAIN_SET_SIZE + VALIDATION_SET_SIZE)
-NUM_EPOCHS = 100
-MIN_BATCH_SIZE = 512
+# Constants
+TRAIN_SET_SIZE = 0.6 # 60% of the data should be Training Set Data
+VALIDATION_SET_SIZE = 0.15 # 15% of the data should be Validation Set Data
+TEST_SET_SIZE = 1 - (TRAIN_SET_SIZE + VALIDATION_SET_SIZE) # The rest of the data should be Test Set Data
+NUM_EPOCHS = 100 # Number of Epochs to use for Model Training
+MIN_BATCH_SIZE = 512 # Minimum batch size to use for Model Training
+MAX_MISCLASSIFIED_IMAGES = 3 # Maxmimum number of misclassified images to output
+IMAGE_MATRIX_SIZE = 28 * 28 # Matrix size of images once flatenned
 
 # Load images.npy
 images = np.load("images.npy")
-IMAGE_MATRIX_SIZE = 28 * 28
 # Becomes a matrix of 6500 arrays that contain 784 int pixel values
 images = np.reshape(images, (len(images), IMAGE_MATRIX_SIZE))
 
@@ -75,10 +77,10 @@ transformedPredictions = setToLabelIndexes(predictions)
 confusion_matrix = cm(transformedTestLabels, transformedPredictions)
 dumpNumpyArrToFile(confusion_matrix, f'{OUT_DIR}/confusion_matrix.txt')
 
-# Find misclassified images
+# Generate misclassified images
 count = 0
 for i in range(len(transformedTestLabels)):
-    if(count >= 3):
+    if(count >= MAX_MISCLASSIFIED_IMAGES):
         # Have already found our 3 misclassified images, break
         break
     currentTestData = transformedTestLabels[i]
