@@ -12,8 +12,7 @@ from utils import setToLabelIndexes, dumpNumpyArrToFile, matrixToImage, OUT_DIR
 TRAIN_SET_SIZE = 0.6 # 60% of the data should be Training Set Data
 VALIDATION_SET_SIZE = 0.15 # 15% of the data should be Validation Set Data
 TEST_SET_SIZE = 1 - (TRAIN_SET_SIZE + VALIDATION_SET_SIZE) # The rest of the data should be Test Set Data
-NUM_EPOCHS = 100 # Number of Epochs to use for Model Training
-MIN_BATCH_SIZE = 512 # Minimum batch size to use for Model Training
+VALIDATION_SET_SIZE_REM = VALIDATION_SET_SIZE / (1 - TRAIN_SET_SIZE) # The percentage of data that should be used for the Validation Set after the initial split of data for the Training Set
 MAX_MISCLASSIFIED_IMAGES = 3 # Maxmimum number of misclassified images to output
 IMAGE_MATRIX_SIZE = 28 * 28 # Matrix size of images once flatenned
 
@@ -28,7 +27,6 @@ labels = to_categorical(labels, 10, 'uint8')
 
 # Generate data sets
 x_train, x_rem, y_train, y_rem = train_test_split(images, labels, train_size=TRAIN_SET_SIZE, stratify=labels) #TODO: Check if stratification works like this
-VALIDATION_SET_SIZE_REM = VALIDATION_SET_SIZE / (1 - TRAIN_SET_SIZE)
 x_validation, x_test, y_validation, y_test = train_test_split(x_rem, y_rem, train_size=VALIDATION_SET_SIZE_REM, stratify=y_rem) #TODO: Check if stratification works like this
 
 model = Sequential() # declare model
@@ -57,8 +55,8 @@ model.save(f'{OUT_DIR}/model.tf')
 # Train Model
 history = model.fit(x_train, y_train, 
                     validation_data = (x_validation, y_validation), 
-                    epochs=NUM_EPOCHS, 
-                    batch_size=MIN_BATCH_SIZE)
+                    epochs=100, 
+                    batch_size=512)
 
 
 # Generate training plot
