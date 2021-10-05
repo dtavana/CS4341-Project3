@@ -63,8 +63,9 @@ history = model.fit(x_train, y_train,
 
 # Generate training plot
 history = history.history
-plt.plot(range(NUM_EPOCHS), history.get("acc"), label="Training Set Accuracy")
-plt.plot(range(NUM_EPOCHS), history.get("val_acc"), label="Validation Set Accuracy")
+plt.plot(history.get("acc"), label="Training Set Accuracy")
+plt.plot(history.get("val_acc"), label="Validation Set Accuracy")
+plt.title("Epoch vs. Accuracy of Model")
 plt.xlabel("Number of Training Epochs")
 plt.ylabel("Set Accuracy")
 plt.legend()
