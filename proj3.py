@@ -15,10 +15,10 @@ NUM_EPOCHS = 100
 MIN_BATCH_SIZE = 512
 
 # Load images.npy
-imagesOriginal = np.load("images.npy")
+images = np.load("images.npy")
 IMAGE_MATRIX_SIZE = 28 * 28
 # Becomes a matrix of 6500 arrays that contain 784 int pixel values
-images = np.reshape(imagesOriginal, (len(imagesOriginal), IMAGE_MATRIX_SIZE))
+images = np.reshape(images, (len(images), IMAGE_MATRIX_SIZE))
 
 # Load labels.npy
 labels = np.load("labels.npy")
