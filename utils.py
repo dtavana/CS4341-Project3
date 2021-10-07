@@ -39,7 +39,6 @@ def genPlot(history, filename):
 
 def saveData(model, history, confusion_matrix, misclassified_images):
     accuracy = str(round(max(history.get("acc")), 2))
-    print(accuracy)
     out_dir = f'{OUT_DIR_ROOT}/{accuracy}'
     os.makedirs(out_dir, exist_ok=True)
     # Save Model
