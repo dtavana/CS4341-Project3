@@ -5,8 +5,7 @@ from tensorflow.keras import regularizers
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix as cm
 import numpy as np
-from matplotlib import pyplot as plt
-from utils import setToLabelIndexes, dumpNumpyArrToFile, matrixToImage
+from utils import *
 from constants import *
 
 # Load images.npy
@@ -41,35 +40,22 @@ model.compile(optimizer='sgd',
               loss='categorical_crossentropy', 
               metrics=['accuracy'])
 
-# Save Model
-model.save(f'{OUT_DIR}/model.tf')
-
 # Train Model
 history = model.fit(x_train, y_train, 
                     validation_data = (x_validation, y_validation), 
                     epochs=100, 
                     batch_size=512)
-
-
-# Generate training plot
 history = history.history
-plt.plot(history.get("acc"), label="Training Set Accuracy")
-plt.plot(history.get("val_acc"), label="Validation Set Accuracy")
-plt.title("Epoch vs. Accuracy of Model")
-plt.xlabel("Number of Training Epochs")
-plt.ylabel("Set Accuracy")
-plt.legend()
-plt.savefig(f'{OUT_DIR}/epoch_vs_accuracy.png')
 
 # Generate confusion matrix
 predictions = model.predict(x_test)
 transformedTestLabels = setToLabelIndexes(y_test)
 transformedPredictions = setToLabelIndexes(predictions)
 confusion_matrix = cm(transformedTestLabels, transformedPredictions)
-dumpNumpyArrToFile(confusion_matrix, f'{OUT_DIR}/confusion_matrix.txt')
 
 # Generate misclassified images
 count = 0
+misclassified_images = []
 for i in range(len(transformedTestLabels)):
     if(count >= MAX_MISCLASSIFIED_IMAGES):
         # Have already found our 3 misclassified images, break
@@ -78,5 +64,7 @@ for i in range(len(transformedTestLabels)):
     currentPredictionData = transformedPredictions[i]
     if currentTestData != currentPredictionData:
         # True Data and Prediction Data do not align
-        matrixToImage(x_test[i], count)
+        misclassified_images.append(x_test[i])
         count += 1
+
+saveData(model, history, confusion_matrix, misclassified_images)
