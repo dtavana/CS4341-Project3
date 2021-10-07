@@ -1,4 +1,4 @@
-OUT_DIR_ROOT = f'out'
+OUT_DIR_ROOT = 'out'
 TRAIN_SET_SIZE = 0.6 # 60% of the data should be Training Set Data
 VALIDATION_SET_SIZE = 0.15 # 15% of the data should be Validation Set Data
 TEST_SET_SIZE = 1 - (TRAIN_SET_SIZE + VALIDATION_SET_SIZE) # The rest of the data should be Test Set Data
