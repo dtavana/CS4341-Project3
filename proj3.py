@@ -6,19 +6,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix as cm
 import numpy as np
 from matplotlib import pyplot as plt
-from utils import setToLabelIndexes, dumpNumpyArrToFile, matrixToImage, OUT_DIR
-
-# Constants
-TRAIN_SET_SIZE = 0.6 # 60% of the data should be Training Set Data
-VALIDATION_SET_SIZE = 0.15 # 15% of the data should be Validation Set Data
-TEST_SET_SIZE = 1 - (TRAIN_SET_SIZE + VALIDATION_SET_SIZE) # The rest of the data should be Test Set Data
-VALIDATION_SET_SIZE_REM = VALIDATION_SET_SIZE / (1 - TRAIN_SET_SIZE) # The percentage of data that should be used for the Validation Set after the initial split of data for the Training Set
-MAX_MISCLASSIFIED_IMAGES = 3 # Maxmimum number of misclassified images to output
-IMAGE_MATRIX_SIZE = 28 * 28 # Matrix size of images once flatenned
+from utils import setToLabelIndexes, dumpNumpyArrToFile, matrixToImage
+from constants import *
 
 # Load images.npy
 images = np.load("images.npy")
-# Becomes a matrix of 6500 arrays that contain 784 int pixel values
 images = np.reshape(images, (len(images), IMAGE_MATRIX_SIZE))
 
 # Load labels.npy

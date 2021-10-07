@@ -1,8 +1,6 @@
 import numpy as np
 from PIL import Image
 
-OUT_DIR = "out"
-
 def setToLabelIndexes(set):
     res = np.empty(len(set), dtype='uint8')
     index = 0
