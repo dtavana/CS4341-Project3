@@ -25,11 +25,9 @@ model.add(Dense(10, input_shape=(IMAGE_MATRIX_SIZE, ), kernel_initializer='he_no
 model.add(Activation('relu'))
 
 model.add(Dense(128, kernel_initializer='random_uniform', kernel_regularizer=regularizers.l2(0.001)))
-#model.add(Dropout(0.3))
 model.add(Activation('relu'))
 
 model.add(Dense(32, kernel_initializer='random_uniform', kernel_regularizer=regularizers.l2(0.001))) 
-#model.add(Dropout(0.2))
 model.add(Activation('tanh'))
 
 model.add(Dense(10, kernel_initializer='he_normal')) # last layer
